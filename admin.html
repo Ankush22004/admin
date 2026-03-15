@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<style>
+body{
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+input,button{
+padding:10px;
+margin:10px;
+width:250px;
+border:none;
+border-radius:6px;
+}
+
+button{
+background:#00c853;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Admin Message Panel</h2>
+
+<input id="appid" placeholder="App ID (example: app-news)">
+<br>
+
+<input id="title" placeholder="Message Title">
+<br>
+
+<input id="text" placeholder="Message Text">
+<br>
+
+<button onclick="sendMessage()">Send Message</button>
+
+<script>
+
+const db="https://YOUR-FIREBASE-DATABASE.firebaseio.com/apps/";
+
+async function sendMessage(){
+
+const app=document.getElementById("appid").value;
+const title=document.getElementById("title").value;
+const text=document.getElementById("text").value;
+
+if(!app || !title || !text){
+alert("Fill all fields");
+return;
+}
+
+const url=db+app+"/messages.json";
+
+await fetch(url,{
+method:"POST",
+body:JSON.stringify({
+title:title,
+text:text,
+time:Date.now()
+})
+});
+
+alert("Message Sent");
+
+}
+
+</script>
+
+</body>
+</html>
